@@ -1,12 +1,16 @@
 #include <iostream>
+#include <map>
 using namespace std;
 
 void processSequence(int numberOfTerms) {
 	int* terms;
-	terms = new int[numberOfTerms];
 
+	terms = new int[numberOfTerms];
 	terms[0] = 0;
-	cout << "Term Number " << 0 << " is: " << 0 << endl;
+
+	map <int, bool> numberTaken;
+
+	numberTaken[0] = true;
 
 	int currentTermNumber = 1;
 	int lastTerm = 0;
@@ -14,14 +18,8 @@ void processSequence(int numberOfTerms) {
 
 	for (currentTermNumber; currentTermNumber < numberOfTerms; currentTermNumber++) {
 		int thisTerm;
-		bool termTaken = false;
-		for (int j = 0; j < numberOfTerms; j++) {
-			if (terms[j] == lastTerm - currentTermNumber) {
-				termTaken = true;
-			}
-		}
 
-		if (!termTaken && lastTerm - currentTermNumber > 0) {
+		if (!numberTaken[lastTerm - currentTermNumber] && lastTerm - currentTermNumber > 0) {
 			thisTerm = lastTerm - currentTermNumber;
 		}
 		else {
@@ -33,14 +31,16 @@ void processSequence(int numberOfTerms) {
 		}
 		lastTerm = thisTerm;
 		terms[currentTermNumber] = thisTerm;
-
-		cout << "Term Number " << currentTermNumber << " is: " << thisTerm << endl;
+		numberTaken[thisTerm] = true;
 	};
 
 	cout << "The Largest Term Number Was: " << largestTerm << endl;
-
+	cout << "The last term number was: " << lastTerm << endl;
+	
 	delete[] terms;
 }
+
+
 
 int main()
 {
